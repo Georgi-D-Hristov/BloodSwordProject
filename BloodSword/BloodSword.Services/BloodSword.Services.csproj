@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BloodSword.Domain\BloodSword.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

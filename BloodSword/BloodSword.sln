@@ -3,7 +3,31 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36401.2 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloodSword.Domain", "BloodSword.Domain\BloodSword.Domain.csproj", "{68A2BF53-CAF9-43F7-81AF-97F68E87B65F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloodSword.Services", "BloodSword.Services\BloodSword.Services.csproj", "{FEE515FF-5E80-487C-AE05-5010BF6B047C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloodSword.App", "BloodSword.App\BloodSword.App.csproj", "{9B37F3E7-0DB8-4315-B794-A1FEB2D54ADE}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{68A2BF53-CAF9-43F7-81AF-97F68E87B65F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68A2BF53-CAF9-43F7-81AF-97F68E87B65F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68A2BF53-CAF9-43F7-81AF-97F68E87B65F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68A2BF53-CAF9-43F7-81AF-97F68E87B65F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEE515FF-5E80-487C-AE05-5010BF6B047C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEE515FF-5E80-487C-AE05-5010BF6B047C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEE515FF-5E80-487C-AE05-5010BF6B047C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEE515FF-5E80-487C-AE05-5010BF6B047C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B37F3E7-0DB8-4315-B794-A1FEB2D54ADE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B37F3E7-0DB8-4315-B794-A1FEB2D54ADE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B37F3E7-0DB8-4315-B794-A1FEB2D54ADE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B37F3E7-0DB8-4315-B794-A1FEB2D54ADE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
