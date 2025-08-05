@@ -1,0 +1,47 @@
+﻿@page "/create-hero"
+@using BloodSword.Domain.Characters
+@using BloodSword.Domain.Repositories
+@inject IHeroRepository HeroRepository
+@inject NavigationManager NavigationManager
+
+<h3>Създаване на нов герой</h3>
+
+<EditForm Model="@newHero" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group mb-3">
+        <label for="name">Име:</label>
+        <InputText id="name" @bind-Value="newHero.Name" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="health">Живот:</label>
+        <InputNumber id="health" @bind-Value="newHero.Health" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="attack">Атака:</label>
+        <InputNumber id="attack" @bind-Value="newHero.AttackSkill" class="form-control" />
+    </div>
+
+    <div class="form-group mb-3">
+        <label for="defense">Защита:</label>
+        <InputNumber id="defense" @bind-Value="newHero.DefenseSkill" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Създай герой</button>
+</EditForm>
+
+@code {
+    private Hero newHero = new Hero();
+
+    private async Task HandleValidSubmit()
+    {
+        // Временно задаваме MaxHealth да е равно на Health
+        newHero.MaxHealth = newHero.Health;
+
+        await HeroRepository.AddAsync(newHero);
+        NavigationManager.NavigateTo("/heroes");
+    }
+}
