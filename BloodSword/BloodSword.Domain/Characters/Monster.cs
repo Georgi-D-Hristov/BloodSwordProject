@@ -1,4 +1,4 @@
-﻿namespace BloodSword.Domain
+﻿namespace BloodSword.Domain.Characters
 {
     public class Monster : Character
     {

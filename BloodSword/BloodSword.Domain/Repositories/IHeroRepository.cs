@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using BloodSword.Domain.Characters;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BloodSword.Domain
+namespace BloodSword.Domain.Repositories
 {
     public interface IHeroRepository
     {

@@ -1,0 +1,36 @@
+﻿@page "/heroes"
+@using BloodSword.Domain.Characters
+@using BloodSword.Domain.Repositories
+@inject IHeroRepository HeroRepository
+
+<h3>Герои на Кървавия Меч</h3>
+
+@if (heroes == null)
+{
+    <p><em>Зареждане...</em></p>
+}
+else
+{
+    <div class="list-group">
+        @foreach (var hero in heroes)
+        {
+            <div class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">@hero.Name</h5>
+                </div>
+                <p class="mb-1">Живот: @hero.Health/@hero.MaxHealth</p>
+                <p class="mb-1">Атака: @hero.AttackSkill</p>
+                <p class="mb-1">Защита: @hero.DefenseSkill</p>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private IEnumerable<Hero> heroes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        heroes = await HeroRepository.GetAllAsync();
+    }
+}

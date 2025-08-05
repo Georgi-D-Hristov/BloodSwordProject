@@ -1,12 +1,62 @@
-﻿namespace BloodSword.Services.Repositories
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+﻿using BloodSword.Domain.Characters;
+using BloodSword.Domain.Repositories;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System;
 
-    internal interface InMemoryHeroRepository
+namespace BloodSword.Services.Repositories
+{
+    public class InMemoryHeroRepository : IHeroRepository
     {
+        private readonly List<Hero> _heroes = new List<Hero>();
+
+        public InMemoryHeroRepository()
+        {
+            // Първоначални данни за тестване
+            var warrior = new Warrior { Name = "Cody the Warrior", Health = 120, MaxHealth = 120, AttackSkill = 15, DefenseSkill = 10 };
+            var enchanter = new Enchanter { Name = "Zelda the Enchanter", Health = 80, MaxHealth = 80, AttackSkill = 8, DefenseSkill = 5 };
+
+            _heroes.Add(warrior);
+            _heroes.Add(enchanter);
+        }
+
+        public Task<Hero> GetByIdAsync(Guid id)
+        {
+            return Task.FromResult(_heroes.FirstOrDefault(h => h.Id == id));
+        }
+
+        public Task<IEnumerable<Hero>> GetAllAsync()
+        {
+            return Task.FromResult<IEnumerable<Hero>>(_heroes);
+        }
+
+        public Task AddAsync(Hero hero)
+        {
+            _heroes.Add(hero);
+            return Task.CompletedTask;
+        }
+
+        public Task UpdateAsync(Hero hero)
+        {
+            var existingHero = _heroes.FirstOrDefault(h => h.Id == hero.Id);
+            if (existingHero != null)
+            {
+                // Заменяме стария герой с новия
+                var index = _heroes.IndexOf(existingHero);
+                _heroes[index] = hero;
+            }
+            return Task.CompletedTask;
+        }
+
+        public Task DeleteAsync(Guid id)
+        {
+            var heroToRemove = _heroes.FirstOrDefault(h => h.Id == id);
+            if (heroToRemove != null)
+            {
+                _heroes.Remove(heroToRemove);
+            }
+            return Task.CompletedTask;
+        }
     }
 }
