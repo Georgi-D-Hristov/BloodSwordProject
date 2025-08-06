@@ -21,13 +21,10 @@ namespace BloodSword.Services.Repositories
                 Health = 120,
                 MaxHealth = 120,
                 AttackSkill = 15,
-                DefenseSkill = 10,
-                Inventory = new List<Item>
-                {
-                    new Weapon { Name = "Меч на светлината", AttackModifier = 5 },
-                    new Armor { Name = "Кожена ризница", DefenseModifier = 3 }
-                }
+                DefenseSkill = 10
             };
+            warrior.AddItem(new Weapon { Name = "Меч на светлината", AttackModifier = 5 });
+            warrior.AddItem(new Armor { Name = "Кожена ризница", DefenseModifier = 3 });
 
             var enchanter = new Enchanter
             {
@@ -35,14 +32,11 @@ namespace BloodSword.Services.Repositories
                 Health = 80,
                 MaxHealth = 80,
                 AttackSkill = 8,
-                DefenseSkill = 5,
-                Inventory = new List<Item>
-                {
-                    new Weapon { Name = "Магическа пръчка", AttackModifier = 2 },
-                    new Armor { Name = "Магическа роба", DefenseModifier = 1 }
-                }
+                DefenseSkill = 5
             };
-
+            enchanter.AddItem(new Weapon { Name = "Магическа пръчка", AttackModifier = 2 });
+            enchanter.AddItem(new Armor { Name = "Магическа роба", DefenseModifier = 1 });
+         
             _heroes.Add(warrior);
             _heroes.Add(enchanter);
         }
