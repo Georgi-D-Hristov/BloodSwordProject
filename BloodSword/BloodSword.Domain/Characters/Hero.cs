@@ -1,8 +1,10 @@
-﻿namespace BloodSword.Domain.Characters
+﻿using BloodSword.Domain.Items;
+
+namespace BloodSword.Domain.Characters
 {
     public class Hero : Character
     {
-        public List<string> Inventory { get; set; } = new List<string>();
+        public List<Item> Inventory { get; set; } = new List<Item>();
         // Тук можем да добавим още свойства като магически точки, заклинания и т.н.
     }
 }

@@ -1,9 +1,10 @@
 ﻿using BloodSword.Domain.Characters;
+using BloodSword.Domain.Items;
 using BloodSword.Domain.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
 
 namespace BloodSword.Services.Repositories
 {
@@ -14,8 +15,33 @@ namespace BloodSword.Services.Repositories
         public InMemoryHeroRepository()
         {
             // Първоначални данни за тестване
-            var warrior = new Warrior { Name = "Cody the Warrior", Health = 120, MaxHealth = 120, AttackSkill = 15, DefenseSkill = 10 };
-            var enchanter = new Enchanter { Name = "Zelda the Enchanter", Health = 80, MaxHealth = 80, AttackSkill = 8, DefenseSkill = 5 };
+            var warrior = new Warrior
+            {
+                Name = "Cody the Warrior",
+                Health = 120,
+                MaxHealth = 120,
+                AttackSkill = 15,
+                DefenseSkill = 10,
+                Inventory = new List<Item>
+                {
+                    new Weapon { Name = "Меч на светлината", AttackModifier = 5 },
+                    new Armor { Name = "Кожена ризница", DefenseModifier = 3 }
+                }
+            };
+
+            var enchanter = new Enchanter
+            {
+                Name = "Zelda the Enchanter",
+                Health = 80,
+                MaxHealth = 80,
+                AttackSkill = 8,
+                DefenseSkill = 5,
+                Inventory = new List<Item>
+                {
+                    new Weapon { Name = "Магическа пръчка", AttackModifier = 2 },
+                    new Armor { Name = "Магическа роба", DefenseModifier = 1 }
+                }
+            };
 
             _heroes.Add(warrior);
             _heroes.Add(enchanter);
