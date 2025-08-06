@@ -1,0 +1,64 @@
+﻿@page "/edit-hero/{HeroId:guid}"
+@using BloodSword.Domain.Characters
+@using BloodSword.Domain.Repositories
+@inject IHeroRepository HeroRepository
+@inject NavigationManager NavigationManager
+
+@if (heroToEdit == null)
+{
+    <p><em>Зареждане или герой не е намерен...</em></p>
+}
+else
+{
+    <h3>Редактиране на @heroToEdit.Name</h3>
+    <EditForm Model="@heroToEdit" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group mb-3">
+            <label for="name">Име:</label>
+            <InputText id="name" @bind-Value="heroToEdit.Name" class="form-control" />
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="health">Живот:</label>
+            <InputNumber id="health" @bind-Value="heroToEdit.Health" class="form-control" />
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="attack">Атака:</label>
+            <InputNumber id="attack" @bind-Value="heroToEdit.AttackSkill" class="form-control" />
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="defense">Защита:</label>
+            <InputNumber id="defense" @bind-Value="heroToEdit.DefenseSkill" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Запази промените</button>
+        <button type="button" class="btn btn-secondary" @onclick="NavigateBack">Отказ</button>
+    </EditForm>
+}
+
+@code {
+    [Parameter]
+    public Guid HeroId { get; set; }
+
+    private Hero heroToEdit;
+
+    protected override async Task OnInitializedAsync()
+    {
+        heroToEdit = await HeroRepository.GetByIdAsync(HeroId);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        await HeroRepository.UpdateAsync(heroToEdit);
+        NavigationManager.NavigateTo("/heroes");
+    }
+
+    private void NavigateBack()
+    {
+        NavigationManager.NavigateTo("/heroes");
+    }
+}

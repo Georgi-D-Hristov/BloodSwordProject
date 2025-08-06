@@ -67,7 +67,7 @@ else
         monster = await MonsterRepository.GetByIdAsync(MonsterId);
     }
 
-    private void Attack()
+    private async void Attack()
     {
         // Героят атакува
         var heroDamage = hero.AttackSkill > monster.DefenseSkill ? hero.AttackSkill - monster.DefenseSkill : 0;
@@ -89,9 +89,13 @@ else
 
         if (hero.Health <= 0)
         {
-            hero.Health = 0;
             isBattleOver = true;
             battleResult = $"{monster.Name} победи {hero.Name}!";
+        }
+
+        if (isBattleOver)
+        {
+            await HeroRepository.UpdateAsync(hero);
         }
     }
 
