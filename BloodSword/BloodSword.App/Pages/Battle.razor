@@ -70,7 +70,7 @@ else
     private async void Attack()
     {
         // Героят атакува
-        var heroDamage = hero.AttackSkill > monster.DefenseSkill ? hero.AttackSkill - monster.DefenseSkill : 0;
+        var heroDamage = hero.AttackSkill > monster.DefenseSkill ? hero.TotalAttackSkill - monster.DefenseSkill : 0;
         monster.Health -= heroDamage;
         battleLog.Add($"{hero.Name} нанася {heroDamage} щети на {monster.Name}!");
 
@@ -83,7 +83,13 @@ else
         }
 
         // Чудовището атакува
-        var monsterDamage = monster.AttackSkill > hero.DefenseSkill ? monster.AttackSkill - hero.DefenseSkill : 0;
+        var monsterDamage = monster.AttackSkill > hero.DefenseSkill ? monster.AttackSkill - hero.TotalDefenseSkill : 0;
+
+        if (monsterDamage < 0)
+        {
+            monsterDamage = 0;
+        }
+
         hero.Health -= monsterDamage;
         battleLog.Add($"{monster.Name} нанася {monsterDamage} щети на {hero.Name}!");
 
