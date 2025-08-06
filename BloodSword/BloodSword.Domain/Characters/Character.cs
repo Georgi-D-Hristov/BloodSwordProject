@@ -8,5 +8,14 @@
         public int MaxHealth { get; set; }
         public int AttackSkill { get; set; }
         public int DefenseSkill { get; set; }
+
+        public void TakeDamage(int damage)
+        {
+            Health -= damage;
+            if (Health < 0)
+            {
+                Health = 0;
+            }
+        }
     }
 }

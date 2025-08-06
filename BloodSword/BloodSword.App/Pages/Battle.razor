@@ -2,6 +2,7 @@
 @using BloodSword.Domain.Characters
 @using BloodSword.Domain.Repositories
 @inject IHeroRepository HeroRepository
+@inject IMonsterRepository MonsterRepository
 @inject NavigationManager NavigationManager
 
 @if (hero == null)
@@ -60,14 +61,14 @@ else
     protected override async Task OnInitializedAsync()
     {
         hero = await HeroRepository.GetByIdAsync(HeroId);
-        // Засега създаваме чудовището на място. По-късно ще го зареждаме от репозиторий.
-        monster = new Monster { Name = "Гоблин", Health = 30, MaxHealth = 30, AttackSkill = 8, DefenseSkill = 5 };
+        var allMonsters = await MonsterRepository.GetAllAsync();
+        monster = allMonsters.FirstOrDefault(); // Взимаме първото чудовище за битка
     }
 
     private void Attack()
     {
         // Героят атакува
-        var heroDamage = hero.AttackSkill > monster.DefenseSkill ? hero.AttackSkill - monster.DefenseSkill : 1;
+        var heroDamage = hero.AttackSkill > monster.DefenseSkill ? hero.AttackSkill - monster.DefenseSkill : 0;
         monster.Health -= heroDamage;
         battleLog.Add($"{hero.Name} нанася {heroDamage} щети на {monster.Name}!");
 
@@ -80,7 +81,7 @@ else
         }
 
         // Чудовището атакува
-        var monsterDamage = monster.AttackSkill > hero.DefenseSkill ? monster.AttackSkill - hero.DefenseSkill : 1;
+        var monsterDamage = monster.AttackSkill > hero.DefenseSkill ? monster.AttackSkill - hero.DefenseSkill : 0;
         hero.Health -= monsterDamage;
         battleLog.Add($"{monster.Name} нанася {monsterDamage} щети на {hero.Name}!");
 
