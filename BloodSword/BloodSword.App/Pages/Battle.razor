@@ -83,6 +83,9 @@ else
             monster.Health = 0;
             isBattleOver = true;
             battleResult = $"{hero.Name} победи {monster.Name}!";
+            battleLog.Add($"🏆 {hero.Name} получава 10 злато и 50 опит!");
+            hero.Gold += 10;
+            hero.Experience += 50;
             return;
         }
 

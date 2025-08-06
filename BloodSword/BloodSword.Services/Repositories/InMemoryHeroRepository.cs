@@ -21,7 +21,9 @@ namespace BloodSword.Services.Repositories
                 Health = 120,
                 MaxHealth = 120,
                 AttackSkill = 15,
-                DefenseSkill = 10
+                DefenseSkill = 10,
+                Gold = 50, // Начално злато
+                Experience = 0, // Начален опит
             };
             warrior.AddItem(new Weapon { Name = "Меч на светлината", AttackModifier = 5 });
             warrior.AddItem(new Armor { Name = "Кожена ризница", DefenseModifier = 3 });
@@ -32,7 +34,9 @@ namespace BloodSword.Services.Repositories
                 Health = 80,
                 MaxHealth = 80,
                 AttackSkill = 8,
-                DefenseSkill = 5
+                DefenseSkill = 5,
+                Gold = 30, // Начално злато
+                Experience = 0, // Начален опит
             };
             enchanter.AddItem(new Weapon { Name = "Магическа пръчка", AttackModifier = 2 });
             enchanter.AddItem(new Armor { Name = "Магическа роба", DefenseModifier = 1 });
