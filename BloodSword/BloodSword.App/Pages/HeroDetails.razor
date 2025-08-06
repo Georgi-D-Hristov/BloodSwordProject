@@ -1,0 +1,38 @@
+﻿@page "/hero/{HeroId:guid}"
+@using BloodSword.Domain.Characters
+@using BloodSword.Domain.Repositories
+@inject IHeroRepository HeroRepository
+@inject NavigationManager NavigationManager
+
+@if (hero == null)
+{
+    <p><em>Зареждане или герой не е намерен...</em></p>
+}
+else
+{
+    <h3>@hero.Name</h3>
+    <hr />
+    <p><strong>Класа:</strong> @hero.GetType().Name</p>
+    <p><strong>Живот:</strong> @hero.Health / @hero.MaxHealth</p>
+    <p><strong>Атака:</strong> @hero.AttackSkill</p>
+    <p><strong>Защита:</strong> @hero.DefenseSkill</p>
+
+    <button class="btn btn-primary" @onclick="NavigateBack">Обратно към списъка</button>
+}
+
+@code {
+    [Parameter]
+    public Guid HeroId { get; set; }
+
+    private Hero hero;
+
+    protected override async Task OnInitializedAsync()
+    {
+        hero = await HeroRepository.GetByIdAsync(HeroId);
+    }
+
+    private void NavigateBack()
+    {
+        NavigationManager.NavigateTo("/heroes");
+    }
+}
