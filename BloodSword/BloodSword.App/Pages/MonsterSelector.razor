@@ -1,0 +1,42 @@
+﻿@page "/select-monster/{HeroId:guid}"
+@using BloodSword.Domain.Characters
+@using BloodSword.Domain.Repositories
+@inject IMonsterRepository MonsterRepository
+@inject NavigationManager NavigationManager
+
+@if (monsters == null)
+{
+    <p><em>Зареждане...</em></p>
+}
+else
+{
+    <h3>Избери чудовище за битка</h3>
+    <hr />
+
+    <div class="list-group">
+        @foreach (var monster in monsters)
+        {
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="mb-1">@monster.Name</h5>
+                    <p class="mb-1">Живот: @monster.Health</p>
+                    <p class="mb-1">Атака: @monster.AttackSkill</p>
+                    <p class="mb-1">Защита: @monster.DefenseSkill</p>
+                </div>
+                <a href="/battle/@HeroId/@monster.Id" class="btn btn-danger">Бий се</a>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Guid HeroId { get; set; }
+
+    private IEnumerable<Monster> monsters;
+
+    protected override async Task OnInitializedAsync()
+    {
+        monsters = await MonsterRepository.GetAllAsync();
+    }
+}

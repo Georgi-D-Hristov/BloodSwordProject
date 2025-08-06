@@ -1,4 +1,4 @@
-﻿@page "/battle/{HeroId:guid}"
+﻿@page "/battle/{HeroId:guid}/{MonsterId:guid}"
 @using BloodSword.Domain.Characters
 @using BloodSword.Domain.Repositories
 @inject IHeroRepository HeroRepository
@@ -52,6 +52,9 @@ else
     [Parameter]
     public Guid HeroId { get; set; }
 
+    [Parameter]
+    public Guid MonsterId { get; set; }
+
     private Hero hero;
     private Monster monster;
     private List<string> battleLog = new List<string>();
@@ -61,8 +64,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         hero = await HeroRepository.GetByIdAsync(HeroId);
-        var allMonsters = await MonsterRepository.GetAllAsync();
-        monster = allMonsters.FirstOrDefault(); // Взимаме първото чудовище за битка
+        monster = await MonsterRepository.GetByIdAsync(MonsterId);
     }
 
     private void Attack()
