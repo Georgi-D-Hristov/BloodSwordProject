@@ -18,6 +18,16 @@ else
     <p><strong>Защита:</strong> @hero.DefenseSkill</p>
 
     <button class="btn btn-primary" @onclick="NavigateBack">Обратно към списъка</button>
+
+    <button class="btn btn-danger" @onclick="StartBattle">Започни битка</button>
+
+@code {
+    // ...
+    private void StartBattle()
+    {
+        NavigationManager.NavigateTo($"/battle/{HeroId}");
+    }
+}
 }
 
 @code {
