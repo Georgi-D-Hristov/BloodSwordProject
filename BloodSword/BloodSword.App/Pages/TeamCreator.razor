@@ -1,0 +1,150 @@
+﻿// BloodSword.App/Components/Pages/TeamCreator.razor
+
+@page "/create-team"
+@using BloodSword.Domain.Characters
+@using BloodSword.Domain.Repositories
+@inject IHeroRepository HeroRepository
+@inject NavigationManager NavigationManager
+
+<h3>Създаване на отбор</h3>
+
+<EditForm Model="@teamData" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group mb-3">
+        <label for="playerCount">Брой играчи:</label>
+        <InputSelect id="playerCount" @bind-Value="teamData.PlayerCount" class="form-control" @onchange="OnPlayerCountChange">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </InputSelect>
+    </div>
+
+    @for (int i = 0; i < teamData.Heroes.Count; i++)
+    {
+        var heroData = teamData.Heroes[i];
+        <div class="card mb-3">
+            <div class="card-header">
+                Герой @(i + 1) (Ранг: @heroData.Rank)
+            </div>
+            <div class="card-body">
+                <div class="form-group mb-3">
+                    <label for="@($"name-{i}")">Име:</label>
+                    <InputText id="@($"name-{i}")" @bind-Value="heroData.Name" class="form-control" />
+                </div>
+                <div class="form-group mb-3">
+                    <label for="@($"class-{i}")">Клас:</label>
+                    <InputSelect id="@($"class-{i}")" @bind-Value="heroData.SelectedClass" class="form-control">
+                        <option value="@nameof(Warrior)">Warrior</option>
+                        <option value="@nameof(Enchanter)">Enchanter</option>
+                        <option value="@nameof(Sage)">Sage</option>
+                        <option value="@nameof(Trickster)">Trickster</option>
+                    </InputSelect>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="@($"health-{i}")">Живот:</label>
+                    <InputNumber id="@($"health-{i}")" @bind-Value="heroData.Health" class="form-control" />
+                </div>
+                <div class="form-group mb-3">
+                    <label for="@($"attack-{i}")">Атака:</label>
+                    <InputNumber id="@($"attack-{i}")" @bind-Value="heroData.AttackSkill" class="form-control" />
+                </div>
+                <div class="form-group mb-3">
+                    <label for="@($"defense-{i}")">Защита:</label>
+                    <InputNumber id="@($"defense-{i}")" @bind-Value="heroData.DefenseSkill" class="form-control" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <button type="submit" class="btn btn-primary">Създай отбор</button>
+</EditForm>
+
+@code {
+    private TeamCreationData teamData = new TeamCreationData();
+
+    private class HeroCreationData
+    {
+        public string Name { get; set; } = string.Empty;
+        public string SelectedClass { get; set; } = nameof(Warrior);
+        public int Health { get; set; } = 100;
+        public int AttackSkill { get; set; } = 10;
+        public int DefenseSkill { get; set; } = 10;
+        public int Rank { get; set; }
+    }
+
+    private class TeamCreationData
+    {
+        public int PlayerCount { get; set; } = 1;
+        public List<HeroCreationData> Heroes { get; set; } = new List<HeroCreationData>();
+    }
+
+    protected override void OnInitialized()
+    {
+        OnPlayerCountChange();
+    }
+
+    private void OnPlayerCountChange()
+    {
+        teamData.Heroes.Clear();
+        int rank;
+
+        switch (teamData.PlayerCount)
+        {
+            case 2: rank = 4; break;
+            case 3: rank = 3; break;
+            case 4: rank = 2; break;
+            default: rank = 8; break;
+        }
+
+        for (int i = 0; i < teamData.PlayerCount; i++)
+        {
+            teamData.Heroes.Add(new HeroCreationData { Rank = rank, Health = 100, AttackSkill = 10, DefenseSkill = 10 });
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        // ... (Същата логика за валидация и създаване на герои) ...
+        var selectedClasses = teamData.Heroes.Select(h => h.SelectedClass).ToList();
+        var duplicateClasses = selectedClasses.GroupBy(x => x).Where(g => g.Count() > 1).Select(y => y.Key).ToList();
+
+        if (duplicateClasses.Any())
+        {
+            Console.WriteLine("Грешка: Не може да има еднотипни герои в отбора!");
+            return;
+        }
+
+        foreach (var heroData in teamData.Heroes)
+        {
+            Hero newHero;
+            switch (heroData.SelectedClass)
+            {
+                case nameof(Enchanter):
+                    newHero = new Enchanter();
+                    break;
+                case nameof(Sage):
+                    newHero = new Sage();
+                    break;
+                case nameof(Trickster):
+                    newHero = new Trickster();
+                    break;
+                default:
+                    newHero = new Warrior();
+                    break;
+            }
+
+            newHero.Name = heroData.Name;
+            newHero.Health = heroData.Health;
+            newHero.MaxHealth = heroData.Health;
+            newHero.AttackSkill = heroData.AttackSkill;
+            newHero.DefenseSkill = heroData.DefenseSkill;
+            newHero.Rank = heroData.Rank;
+
+            await HeroRepository.AddAsync(newHero);
+        }
+        NavigationManager.NavigateTo("/heroes");
+    }
+}

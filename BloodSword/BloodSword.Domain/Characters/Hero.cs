@@ -7,6 +7,7 @@ namespace BloodSword.Domain.Characters
         public int TotalAttackSkill => AttackSkill + Inventory.OfType<Weapon>().Sum(w => w.AttackModifier);
         public int TotalDefenseSkill => DefenseSkill + Inventory.OfType<Armor>().Sum(d => d.DefenseModifier);
 
+        public int Rank { get; set; }
         public int Gold { get; set; }
         public int Experience { get; set; }
 

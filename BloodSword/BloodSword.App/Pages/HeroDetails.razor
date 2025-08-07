@@ -13,11 +13,26 @@ else
 {
     <h3>@hero.Name</h3>
     <hr>
-    <p><strong>Класа:</strong> @hero.GetType().Name</p>
+    <p><strong>Клас:</strong> @hero.GetType().Name</p>
     <p><strong>Живот:</strong> @hero.Health / @hero.MaxHealth</p>
     <p><strong>Атака:</strong> @hero.AttackSkill</p>
     <p><strong>Защита:</strong> @hero.DefenseSkill</p>
+
+    @if (hero is Enchanter enchanter)
+    {
+        <p><strong>Заклинания:</strong> @string.Join(", ", enchanter.Spells)</p>
+    }
+    else if (hero is Sage sage)
+    {
+        <p><strong>Мистично познание:</strong> @sage.ArcaneKnowledge</p>
+    }
+    else if (hero is Trickster trickster)
+    {
+        <p><strong>Умение за промъкване:</strong> @trickster.StealthSkill</p>
+    }
+
     <hr />
+    <p><strong>⭐ Ранг:</strong> @hero.Rank</p>
     <p><strong>💰 Злато:</strong> @hero.Gold</p>
     <p><strong>✨ Опит:</strong> @hero.Experience</p>
 
